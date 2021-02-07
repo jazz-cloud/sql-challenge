@@ -6,10 +6,15 @@ DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS titles; 
 DROP TABLE IF EXISTS departments; 
 
+-- Set date format
+SET TIME ZONE 'PST8PDT';
+SELECT CURRENT_TIMESTAMP AS TODAY;
+SET datestyle TO postgres, MDY;
+
 -- Create departments table 
 CREATE TABLE departments (
 	dept_no VARCHAR (10) NOT NULL PRIMARY KEY,
-	dept_name VARCHAR (30) NOT NULL);
+	dept_name VARCHAR (50) NOT NULL);
 
 -- Create titles table 
 CREATE TABLE titles (
@@ -20,11 +25,11 @@ CREATE TABLE titles (
 CREATE TABLE employees (
 	emp_no INT NOT NULL PRIMARY KEY,
 	emp_title_id VARCHAR (10) NOT NULL,
-	birth_date DATE NOT NULL, 
+	birth_date VARCHAR(20) NOT NULL, 
 	first_name VARCHAR (50) NOT NULL,
 	last_name VARCHAR (50) NOT NULL,
 	sex VARCHAR (10) NOT NULL,
-	hire_date DATE NOT NULL,
+	hire_date VARCHAR(20) NOT NULL
 	FOREIGN KEY (emp_title_id) REFERENCES titles (title_id));
 	
 -- Create dept_manager table 
@@ -47,10 +52,7 @@ CREATE TABLE dept_emp (
 CREATE TABLE salaries (
 	emp_no INT NOT NULL PRIMARY KEY,
 	FOREIGN KEY (emp_no) REFERENCES employees (emp_no),	
-	salary INT NOT NULL);
-
--- Set date format
-SET DateStyle TO MDY; 
+	salary INT NOT NULL); 
 
 -- Import departments.csv to table
 copy departments from 'C:\Users\Owner\SQL-Challenge\EmployeeSQL\data\departments.csv'
